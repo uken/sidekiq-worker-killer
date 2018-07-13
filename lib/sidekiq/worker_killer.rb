@@ -1,13 +1,12 @@
+# frozen_string_literal: true
+require "socket"
 require "get_process_mem"
 require "sidekiq"
-require "sidekiq/util"
 
 module Sidekiq
   # Sidekiq server middleware. Kill worker when the RSS memory exceeds limit
   # after a given grace time.
   class WorkerKiller
-    include Sidekiq::Util
-
     MUTEX = Mutex.new
 
     def initialize(options = {})
@@ -70,6 +69,10 @@ module Sidekiq
 
     def identity
       "#{hostname}:#{pid}"
+    end
+
+    def hostname
+      ENV["DYNO"] || Socket.gethostname
     end
 
     def quiet_signal
