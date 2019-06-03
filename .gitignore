@@ -15,6 +15,7 @@ Gemfile.lock
 vendor/bundle
 .bundle
 *.gem
+,
 
 ## KLAXIT
 .rubocop-*
